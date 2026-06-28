@@ -1,0 +1,143 @@
+import type { Branch, Employee, Product, WriteOffRequest } from './types';
+
+export const BRANCHES: Branch[] = [
+  { id: 'b1', name: 'Bahandi Branch #1', riskScore: 12, alertCount: 0, preventedLoss: 0 },
+  { id: 'b2', name: 'Bahandi Branch #2', riskScore: 47, alertCount: 2, preventedLoss: 0 },
+  { id: 'b3', name: 'Bahandi Branch #3', riskScore: 91, alertCount: 5, preventedLoss: 18400 },
+  { id: 'b4', name: 'Bahandi Branch #4', riskScore: 8, alertCount: 0, preventedLoss: 0 },
+  { id: 'b5', name: 'Bahandi Branch #5', riskScore: 53, alertCount: 3, preventedLoss: 0 },
+];
+
+export const EMPLOYEES: Employee[] = [
+  { id: 'e1', name: 'Aibek M.', role: 'cook', branch: 'b1' },
+  { id: 'e2', name: 'A. Bekova', role: 'cook', branch: 'b3' },
+  { id: 'e3', name: 'N. Smagul', role: 'cashier', branch: 'b2' },
+  { id: 'e4', name: 'D. Tulegen', role: 'cashier', branch: 'b4' },
+  { id: 'e5', name: 'M. Sadykov', role: 'supervisor', branch: 'b1' },
+];
+
+export const PRODUCTS: Product[] = [
+  { id: 'p1', name: 'Tomatoes', unit: 'pcs' },
+  { id: 'p2', name: 'Patty', unit: 'pcs' },
+  { id: 'p3', name: 'Buns', unit: 'pcs' },
+  { id: 'p4', name: 'Cheese', unit: 'pcs' },
+  { id: 'p5', name: 'Sauce', unit: 'kg' },
+  { id: 'p6', name: 'Other', unit: 'pcs' },
+];
+
+export const WRITE_OFF_REASONS = [
+  'Delivery damage',
+  'Fell on floor',
+  'Expired',
+  'Overcooked',
+  'Not standard',
+  'Other',
+];
+
+export const INITIAL_REQUESTS: WriteOffRequest[] = [
+  {
+    id: '2341',
+    branch: 'Bahandi Branch #3',
+    product: 'Tomatoes',
+    quantity: 40,
+    unit: 'pcs',
+    reason: 'Delivery damage',
+    writeOffType: 'without_deduction',
+    comment: 'Tomatoes damaged on delivery, photo attached.',
+    photoHash: 'phash:a4f2b1c8d9e3',
+    sender: 'A. Bekova',
+    senderRole: 'cook',
+    createdAt: '2025-06-27T09:14:00Z',
+    status: 'pending',
+    route: 'control',
+    aiVerdict: {
+      duplicateDetected: true,
+      matchScore: 98.4,
+      matchedRequestId: '1847',
+      productVerified: true,
+      damageVerified: false,
+      quantityVerified: false,
+      riskScore: 91,
+      riskLevel: 'high',
+      flags: [
+        { type: 'duplicate_photo', severity: 'high', detail: 'Photo matches request #1847 at 98.4%' },
+        { type: 'quantity_anomaly', severity: 'medium', detail: 'Quantity 4× above branch average' },
+      ],
+      suggestedRoute: 'control',
+      reasoning: 'Duplicate photo detected. Already appeared in request #1847. Quantity anomaly.',
+    },
+    iiko: { mode: 'sandbox', status: 'pending' },
+    auditEvents: [
+      { id: 'ae1', requestId: '2341', event: 'created', actor: 'A. Bekova', timestamp: '2025-06-27T09:14:00Z' },
+      { id: 'ae2', requestId: '2341', event: 'verifying', actor: 'PHYLAX AI', timestamp: '2025-06-27T09:14:03Z', detail: 'Running duplicate check + Gemini Vision' },
+      { id: 'ae3', requestId: '2341', event: 'pending', actor: 'PHYLAX AI', timestamp: '2025-06-27T09:14:07Z', detail: 'Routed to Control Department. Risk: 91/100' },
+    ],
+  },
+  {
+    id: '2342',
+    branch: 'Bahandi Branch #1',
+    product: 'Patty',
+    quantity: 3,
+    unit: 'pcs',
+    reason: 'Fell on floor',
+    writeOffType: 'with_deduction',
+    deductionEmployee: 'Aibek M.',
+    comment: 'Three patties fell during prep rush. Floor contaminated.',
+    photoHash: 'phash:b7e9c2d4f1a5',
+    sender: 'Aibek M.',
+    senderRole: 'cook',
+    createdAt: '2025-06-27T10:22:00Z',
+    status: 'pending',
+    route: 'supervisor',
+    aiVerdict: {
+      duplicateDetected: false,
+      productVerified: true,
+      damageVerified: true,
+      quantityVerified: true,
+      riskScore: 18,
+      riskLevel: 'low',
+      flags: [],
+      suggestedRoute: 'supervisor',
+      reasoning: 'No duplicate. Product and damage verified. Low-risk write-off.',
+    },
+    iiko: { mode: 'sandbox', status: 'pending' },
+    auditEvents: [
+      { id: 'ae4', requestId: '2342', event: 'created', actor: 'Aibek M.', timestamp: '2025-06-27T10:22:00Z' },
+      { id: 'ae5', requestId: '2342', event: 'pending', actor: 'PHYLAX AI', timestamp: '2025-06-27T10:22:05Z', detail: 'Routed to Supervisor. Risk: 18/100' },
+    ],
+  },
+  {
+    id: '2343',
+    branch: 'Bahandi Branch #2',
+    product: 'Buns',
+    quantity: 24,
+    unit: 'pcs',
+    reason: 'Delivery damage',
+    writeOffType: 'without_deduction',
+    comment: 'Entire delivery batch arrived with visible mold.',
+    photoHash: 'phash:c1d8e5f7a3b2',
+    sender: 'N. Smagul',
+    senderRole: 'cashier',
+    createdAt: '2025-06-27T11:05:00Z',
+    status: 'pending',
+    route: 'supply',
+    aiVerdict: {
+      duplicateDetected: false,
+      productVerified: true,
+      damageVerified: true,
+      quantityVerified: true,
+      riskScore: 47,
+      riskLevel: 'medium',
+      flags: [
+        { type: 'quantity_anomaly', severity: 'medium', detail: 'Delivery quality claim. Supply review recommended.' },
+      ],
+      suggestedRoute: 'supply',
+      reasoning: 'Delivery quality issue. Routed to Supply Department.',
+    },
+    iiko: { mode: 'sandbox', status: 'pending' },
+    auditEvents: [
+      { id: 'ae6', requestId: '2343', event: 'created', actor: 'N. Smagul', timestamp: '2025-06-27T11:05:00Z' },
+      { id: 'ae7', requestId: '2343', event: 'pending', actor: 'PHYLAX AI', timestamp: '2025-06-27T11:05:04Z', detail: 'Routed to Supply Department. Risk: 47/100' },
+    ],
+  },
+];

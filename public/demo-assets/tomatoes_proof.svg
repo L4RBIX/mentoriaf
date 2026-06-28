@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" width="800" height="380">
+  <defs>
+    <radialGradient id="tgL" cx="36%" cy="30%" r="64%">
+      <stop offset="0%" stop-color="#ff7a6a"/>
+      <stop offset="55%" stop-color="#d42222"/>
+      <stop offset="100%" stop-color="#8c1212"/>
+    </radialGradient>
+    <radialGradient id="tgR" cx="36%" cy="30%" r="64%">
+      <stop offset="0%" stop-color="#ff6858"/>
+      <stop offset="55%" stop-color="#c81a1a"/>
+      <stop offset="100%" stop-color="#800e0e"/>
+    </radialGradient>
+    <filter id="sh">
+      <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+    <clipPath id="clipL"><rect x="0" y="34" width="396" height="316"/></clipPath>
+    <clipPath id="clipR"><rect x="404" y="34" width="396" height="316"/></clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="380" fill="#060606"/>
+
+  <!-- Left panel bg -->
+  <rect x="0" y="0" width="396" height="380" fill="#0c0808"/>
+
+  <!-- Right panel bg (slight red tint for duplicate alert) -->
+  <rect x="404" y="0" width="396" height="380" fill="#0e0707"/>
+  <rect x="404" y="0" width="396" height="380" fill="rgba(239,68,68,0.04)"/>
+
+  <!-- Separator -->
+  <rect x="395" y="0" width="10" height="380" fill="#040404"/>
+  <line x1="400" y1="0" x2="400" y2="380" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+
+  <!-- Headers -->
+  <rect x="0" y="0" width="396" height="34" fill="rgba(0,0,0,0.55)"/>
+  <text x="14" y="21" font-family="monospace" font-size="9" fill="rgba(255,255,255,0.32)" letter-spacing="1.3">WO-1847 · ORIGINAL · 7 DAYS AGO</text>
+  <text x="382" y="21" font-family="monospace" font-size="8" fill="rgba(34,197,94,0.6)" text-anchor="end">● APPROVED</text>
+
+  <rect x="404" y="0" width="396" height="34" fill="rgba(239,68,68,0.08)"/>
+  <text x="418" y="21" font-family="monospace" font-size="9" fill="rgba(239,68,68,0.9)" letter-spacing="1.3">⚠ DUPLICATE DETECTED · CURRENT REQUEST</text>
+
+  <!-- Left tomatoes -->
+  <g clip-path="url(#clipL)" filter="url(#sh)">
+    <circle cx="65" cy="95" r="44" fill="url(#tgL)"/>
+  <circle cx="152" cy="87" r="42" fill="url(#tgL)"/>
+  <circle cx="237" cy="94" r="43" fill="url(#tgL)"/>
+  <circle cx="322" cy="88" r="41" fill="url(#tgL)"/>
+  <circle cx="22" cy="171" r="40" fill="url(#tgL)"/>
+  <circle cx="107" cy="167" r="43" fill="url(#tgL)"/>
+  <circle cx="192" cy="174" r="42" fill="url(#tgL)"/>
+  <circle cx="277" cy="166" r="41" fill="url(#tgL)"/>
+  <circle cx="360" cy="173" r="40" fill="url(#tgL)"/>
+  <circle cx="62" cy="249" r="43" fill="url(#tgL)"/>
+  <circle cx="147" cy="243" r="41" fill="url(#tgL)"/>
+  <circle cx="232" cy="251" r="44" fill="url(#tgL)"/>
+  <circle cx="316" cy="246" r="42" fill="url(#tgL)"/>
+  <circle cx="104" cy="319" r="42" fill="url(#tgL)"/>
+  <circle cx="189" cy="313" r="40" fill="url(#tgL)"/>
+  <circle cx="274" cy="320" r="43" fill="url(#tgL)"/>
+  <circle cx="353" cy="315" r="41" fill="url(#tgL)"/>
+  </g>
+  <g clip-path="url(#clipL)">
+    <path d="M65 51 C60 43 63 37 65 33 C67 37 70 43 65 51" fill="#3d8b3d" opacity="0.85"/>
+<path d="M65 47 C73 41 77 45 75 49" fill="#3d8b3d" opacity="0.6"/>
+<path d="M65 47 C57 41 53 45 55 49" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M152 45 C147 37 150 31 152 27 C154 31 157 37 152 45" fill="#3d8b3d" opacity="0.85"/>
+<path d="M152 41 C160 35 164 39 162 43" fill="#3d8b3d" opacity="0.6"/>
+<path d="M152 41 C144 35 140 39 142 43" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M237 51 C232 43 235 37 237 33 C239 37 242 43 237 51" fill="#3d8b3d" opacity="0.85"/>
+<path d="M237 47 C245 41 249 45 247 49" fill="#3d8b3d" opacity="0.6"/>
+<path d="M237 47 C229 41 225 45 227 49" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M322 47 C317 39 320 33 322 29 C324 33 327 39 322 47" fill="#3d8b3d" opacity="0.85"/>
+<path d="M322 43 C330 37 334 41 332 45" fill="#3d8b3d" opacity="0.6"/>
+<path d="M322 43 C314 37 310 41 312 45" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M22 131 C17 123 20 117 22 113 C24 117 27 123 22 131" fill="#3d8b3d" opacity="0.85"/>
+<path d="M22 127 C30 121 34 125 32 129" fill="#3d8b3d" opacity="0.6"/>
+<path d="M22 127 C14 121 10 125 12 129" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M107 124 C102 116 105 110 107 106 C109 110 112 116 107 124" fill="#3d8b3d" opacity="0.85"/>
+<path d="M107 120 C115 114 119 118 117 122" fill="#3d8b3d" opacity="0.6"/>
+<path d="M107 120 C99 114 95 118 97 122" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M192 132 C187 124 190 118 192 114 C194 118 197 124 192 132" fill="#3d8b3d" opacity="0.85"/>
+<path d="M192 128 C200 122 204 126 202 130" fill="#3d8b3d" opacity="0.6"/>
+<path d="M192 128 C184 122 180 126 182 130" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M277 125 C272 117 275 111 277 107 C279 111 282 117 277 125" fill="#3d8b3d" opacity="0.85"/>
+<path d="M277 121 C285 115 289 119 287 123" fill="#3d8b3d" opacity="0.6"/>
+<path d="M277 121 C269 115 265 119 267 123" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M360 133 C355 125 358 119 360 115 C362 119 365 125 360 133" fill="#3d8b3d" opacity="0.85"/>
+<path d="M360 129 C368 123 372 127 370 131" fill="#3d8b3d" opacity="0.6"/>
+<path d="M360 129 C352 123 348 127 350 131" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M62 206 C57 198 60 192 62 188 C64 192 67 198 62 206" fill="#3d8b3d" opacity="0.85"/>
+<path d="M62 202 C70 196 74 200 72 204" fill="#3d8b3d" opacity="0.6"/>
+<path d="M62 202 C54 196 50 200 52 204" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M147 202 C142 194 145 188 147 184 C149 188 152 194 147 202" fill="#3d8b3d" opacity="0.85"/>
+<path d="M147 198 C155 192 159 196 157 200" fill="#3d8b3d" opacity="0.6"/>
+<path d="M147 198 C139 192 135 196 137 200" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M232 207 C227 199 230 193 232 189 C234 193 237 199 232 207" fill="#3d8b3d" opacity="0.85"/>
+<path d="M232 203 C240 197 244 201 242 205" fill="#3d8b3d" opacity="0.6"/>
+<path d="M232 203 C224 197 220 201 222 205" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M316 204 C311 196 314 190 316 186 C318 190 321 196 316 204" fill="#3d8b3d" opacity="0.85"/>
+<path d="M316 200 C324 194 328 198 326 202" fill="#3d8b3d" opacity="0.6"/>
+<path d="M316 200 C308 194 304 198 306 202" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M104 277 C99 269 102 263 104 259 C106 263 109 269 104 277" fill="#3d8b3d" opacity="0.85"/>
+<path d="M104 273 C112 267 116 271 114 275" fill="#3d8b3d" opacity="0.6"/>
+<path d="M104 273 C96 267 92 271 94 275" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M189 273 C184 265 187 259 189 255 C191 259 194 265 189 273" fill="#3d8b3d" opacity="0.85"/>
+<path d="M189 269 C197 263 201 267 199 271" fill="#3d8b3d" opacity="0.6"/>
+<path d="M189 269 C181 263 177 267 179 271" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M274 277 C269 269 272 263 274 259 C276 263 279 269 274 277" fill="#3d8b3d" opacity="0.85"/>
+<path d="M274 273 C282 267 286 271 284 275" fill="#3d8b3d" opacity="0.6"/>
+<path d="M274 273 C266 267 262 271 264 275" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M353 274 C348 266 351 260 353 256 C355 260 358 266 353 274" fill="#3d8b3d" opacity="0.85"/>
+<path d="M353 270 C361 264 365 268 363 272" fill="#3d8b3d" opacity="0.6"/>
+<path d="M353 270 C345 264 341 268 343 272" fill="#3d8b3d" opacity="0.6"/>
+  </g>
+
+  <!-- Right tomatoes -->
+  <g clip-path="url(#clipR)" filter="url(#sh)">
+    <circle cx="469" cy="95" r="44" fill="url(#tgR)"/>
+  <circle cx="556" cy="87" r="42" fill="url(#tgR)"/>
+  <circle cx="641" cy="94" r="43" fill="url(#tgR)"/>
+  <circle cx="726" cy="88" r="41" fill="url(#tgR)"/>
+  <circle cx="426" cy="171" r="40" fill="url(#tgR)"/>
+  <circle cx="511" cy="167" r="43" fill="url(#tgR)"/>
+  <circle cx="596" cy="174" r="42" fill="url(#tgR)"/>
+  <circle cx="681" cy="166" r="41" fill="url(#tgR)"/>
+  <circle cx="764" cy="173" r="40" fill="url(#tgR)"/>
+  <circle cx="466" cy="249" r="43" fill="url(#tgR)"/>
+  <circle cx="551" cy="243" r="41" fill="url(#tgR)"/>
+  <circle cx="636" cy="251" r="44" fill="url(#tgR)"/>
+  <circle cx="720" cy="246" r="42" fill="url(#tgR)"/>
+  <circle cx="508" cy="319" r="42" fill="url(#tgR)"/>
+  <circle cx="593" cy="313" r="40" fill="url(#tgR)"/>
+  <circle cx="678" cy="320" r="43" fill="url(#tgR)"/>
+  <circle cx="757" cy="315" r="41" fill="url(#tgR)"/>
+  </g>
+  <g clip-path="url(#clipR)">
+    <path d="M469 51 C464 43 467 37 469 33 C471 37 474 43 469 51" fill="#3d8b3d" opacity="0.85"/>
+<path d="M469 47 C477 41 481 45 479 49" fill="#3d8b3d" opacity="0.6"/>
+<path d="M469 47 C461 41 457 45 459 49" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M556 45 C551 37 554 31 556 27 C558 31 561 37 556 45" fill="#3d8b3d" opacity="0.85"/>
+<path d="M556 41 C564 35 568 39 566 43" fill="#3d8b3d" opacity="0.6"/>
+<path d="M556 41 C548 35 544 39 546 43" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M641 51 C636 43 639 37 641 33 C643 37 646 43 641 51" fill="#3d8b3d" opacity="0.85"/>
+<path d="M641 47 C649 41 653 45 651 49" fill="#3d8b3d" opacity="0.6"/>
+<path d="M641 47 C633 41 629 45 631 49" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M726 47 C721 39 724 33 726 29 C728 33 731 39 726 47" fill="#3d8b3d" opacity="0.85"/>
+<path d="M726 43 C734 37 738 41 736 45" fill="#3d8b3d" opacity="0.6"/>
+<path d="M726 43 C718 37 714 41 716 45" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M426 131 C421 123 424 117 426 113 C428 117 431 123 426 131" fill="#3d8b3d" opacity="0.85"/>
+<path d="M426 127 C434 121 438 125 436 129" fill="#3d8b3d" opacity="0.6"/>
+<path d="M426 127 C418 121 414 125 416 129" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M511 124 C506 116 509 110 511 106 C513 110 516 116 511 124" fill="#3d8b3d" opacity="0.85"/>
+<path d="M511 120 C519 114 523 118 521 122" fill="#3d8b3d" opacity="0.6"/>
+<path d="M511 120 C503 114 499 118 501 122" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M596 132 C591 124 594 118 596 114 C598 118 601 124 596 132" fill="#3d8b3d" opacity="0.85"/>
+<path d="M596 128 C604 122 608 126 606 130" fill="#3d8b3d" opacity="0.6"/>
+<path d="M596 128 C588 122 584 126 586 130" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M681 125 C676 117 679 111 681 107 C683 111 686 117 681 125" fill="#3d8b3d" opacity="0.85"/>
+<path d="M681 121 C689 115 693 119 691 123" fill="#3d8b3d" opacity="0.6"/>
+<path d="M681 121 C673 115 669 119 671 123" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M764 133 C759 125 762 119 764 115 C766 119 769 125 764 133" fill="#3d8b3d" opacity="0.85"/>
+<path d="M764 129 C772 123 776 127 774 131" fill="#3d8b3d" opacity="0.6"/>
+<path d="M764 129 C756 123 752 127 754 131" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M466 206 C461 198 464 192 466 188 C468 192 471 198 466 206" fill="#3d8b3d" opacity="0.85"/>
+<path d="M466 202 C474 196 478 200 476 204" fill="#3d8b3d" opacity="0.6"/>
+<path d="M466 202 C458 196 454 200 456 204" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M551 202 C546 194 549 188 551 184 C553 188 556 194 551 202" fill="#3d8b3d" opacity="0.85"/>
+<path d="M551 198 C559 192 563 196 561 200" fill="#3d8b3d" opacity="0.6"/>
+<path d="M551 198 C543 192 539 196 541 200" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M636 207 C631 199 634 193 636 189 C638 193 641 199 636 207" fill="#3d8b3d" opacity="0.85"/>
+<path d="M636 203 C644 197 648 201 646 205" fill="#3d8b3d" opacity="0.6"/>
+<path d="M636 203 C628 197 624 201 626 205" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M720 204 C715 196 718 190 720 186 C722 190 725 196 720 204" fill="#3d8b3d" opacity="0.85"/>
+<path d="M720 200 C728 194 732 198 730 202" fill="#3d8b3d" opacity="0.6"/>
+<path d="M720 200 C712 194 708 198 710 202" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M508 277 C503 269 506 263 508 259 C510 263 513 269 508 277" fill="#3d8b3d" opacity="0.85"/>
+<path d="M508 273 C516 267 520 271 518 275" fill="#3d8b3d" opacity="0.6"/>
+<path d="M508 273 C500 267 496 271 498 275" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M593 273 C588 265 591 259 593 255 C595 259 598 265 593 273" fill="#3d8b3d" opacity="0.85"/>
+<path d="M593 269 C601 263 605 267 603 271" fill="#3d8b3d" opacity="0.6"/>
+<path d="M593 269 C585 263 581 267 583 271" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M678 277 C673 269 676 263 678 259 C680 263 683 269 678 277" fill="#3d8b3d" opacity="0.85"/>
+<path d="M678 273 C686 267 690 271 688 275" fill="#3d8b3d" opacity="0.6"/>
+<path d="M678 273 C670 267 666 271 668 275" fill="#3d8b3d" opacity="0.6"/>
+  <path d="M757 274 C752 266 755 260 757 256 C759 260 762 266 757 274" fill="#3d8b3d" opacity="0.85"/>
+<path d="M757 270 C765 264 769 268 767 272" fill="#3d8b3d" opacity="0.6"/>
+<path d="M757 270 C749 264 745 268 747 272" fill="#3d8b3d" opacity="0.6"/>
+  </g>
+
+  <!-- Ink marks on right panel -->
+  <g clip-path="url(#clipR)">
+    <text x="556" y="93" font-family="Georgia,serif" font-size="26" fill="#100000" opacity="0.65" text-anchor="middle" font-style="italic">ε</text>
+  <text x="426" y="177" font-family="Georgia,serif" font-size="26" fill="#100000" opacity="0.65" text-anchor="middle" font-style="italic">ε</text>
+  <text x="681" y="172" font-family="Georgia,serif" font-size="26" fill="#100000" opacity="0.65" text-anchor="middle" font-style="italic">ε</text>
+  <text x="551" y="249" font-family="Georgia,serif" font-size="26" fill="#100000" opacity="0.65" text-anchor="middle" font-style="italic">ε</text>
+  <text x="508" y="325" font-family="Georgia,serif" font-size="26" fill="#100000" opacity="0.65" text-anchor="middle" font-style="italic">ε</text>
+  </g>
+
+  <!-- Bottom info bar -->
+  <rect x="0" y="350" width="800" height="30" fill="rgba(0,0,0,0.72)"/>
+  <line x1="0" y1="350" x2="800" y2="350" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <text x="14" y="368" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.22)">phash: f033e8ec2faad4f0</text>
+  <text x="400" y="369" font-family="monospace" font-size="9.5" fill="#ef4444" text-anchor="middle" font-weight="bold">MATCH 98.4%</text>
+  <text x="787" y="368" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.22)" text-anchor="end">Tomatoes · 40 kg · Bahandi Branch #3</text>
+</svg>

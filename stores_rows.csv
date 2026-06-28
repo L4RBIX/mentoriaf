@@ -1,0 +1,88 @@
+id,name,address,city,created_at
+store-001,Bahandi Branch #1,"пр. Назарбаева 240",Almaty,2024-01-15
+store-002,Bahandi Branch #2,"ул. Толе би 59",Almaty,2024-01-15
+store-003,Bahandi Branch #3,"ул. Абая 52, мкр. Алмагуль",Almaty,2024-01-15
+store-004,Bahandi Branch #4,"пр. Аль-Фараби 17",Almaty,2024-01-15
+store-005,Bahandi Branch #5,"пр. Достык 134",Almaty,2024-01-15
+store-006,Bahandi Branch #6,"ул. Байзакова 280",Almaty,2024-01-15
+store-007,Bahandi Branch #7,"пр. Сейфуллина 458",Almaty,2024-01-15
+store-008,Bahandi Branch #8,"ул. Тимирязева 42",Almaty,2024-01-15
+store-009,Bahandi Branch #9,"пр. Аль-Фараби 85",Almaty,2024-01-15
+store-010,Bahandi Branch #10,"ул. Жандосова 77",Almaty,2024-01-15
+store-011,Bahandi Branch #11,"ул. Абая 109",Almaty,2024-01-15
+store-012,Bahandi Branch #12,"пр. Достык 222",Almaty,2024-01-15
+store-013,Bahandi Branch #13,"ул. Толе би 145",Almaty,2024-01-15
+store-014,Bahandi Branch #14,"пр. Назарбаева 98",Almaty,2024-01-15
+store-015,Bahandi Branch #15,"ул. Байзакова 51",Almaty,2024-01-15
+store-016,Bahandi Branch #16,"пр. Сейфуллина 31",Almaty,2024-01-15
+store-017,Bahandi Branch #17,"ул. Тимирязева 180",Almaty,2024-01-15
+store-018,Bahandi Branch #18,"пр. Аль-Фараби 163",Almaty,2024-01-15
+store-019,Bahandi Branch #19,"ул. Жандосова 12",Almaty,2024-01-15
+store-020,Bahandi Branch #20,"пр. Достык 67",Almaty,2024-01-15
+store-021,Bahandi Branch #21,"ул. Абая 201",Almaty,2024-01-15
+store-022,Bahandi Branch #22,"ул. Толе би 88",Almaty,2024-01-15
+store-023,Bahandi Branch #23,"пр. Назарбаева 330",Almaty,2024-01-15
+store-024,Bahandi Branch #24,"ул. Байзакова 174",Almaty,2024-01-15
+store-025,Bahandi Branch #25,"пр. Сейфуллина 512",Almaty,2024-01-15
+store-026,Bahandi Branch #26,"ул. Тимирязева 99",Almaty,2024-01-15
+store-027,Bahandi Branch #27,"пр. Аль-Фараби 240",Almaty,2024-01-15
+store-028,Bahandi Branch #28,"ул. Жандосова 145",Almaty,2024-01-15
+store-029,Bahandi Branch #29,"пр. Достык 390",Almaty,2024-01-15
+store-030,Bahandi Branch #30,"ул. Абая 73",Almaty,2024-01-15
+store-031,Bahandi Branch #31,"пр. Кабанбай батыра 17",Astana,2024-01-20
+store-032,Bahandi Branch #32,"пр. Туран 24",Astana,2024-01-20
+store-033,Bahandi Branch #33,"ул. Кунаева 12",Astana,2024-01-20
+store-034,Bahandi Branch #34,"пр. Республики 63",Astana,2024-01-20
+store-035,Bahandi Branch #35,"ул. Бейбитшилик 28",Astana,2024-01-20
+store-036,Bahandi Branch #36,"пр. Абылай хана 41",Astana,2024-01-20
+store-037,Bahandi Branch #37,"пр. Кабанбай батыра 53",Astana,2024-01-20
+store-038,Bahandi Branch #38,"пр. Туран 87",Astana,2024-01-20
+store-039,Bahandi Branch #39,"ул. Кунаева 34",Astana,2024-01-20
+store-040,Bahandi Branch #40,"пр. Республики 112",Astana,2024-01-20
+store-041,Bahandi Branch #41,"ул. Бейбитшилик 75",Astana,2024-01-20
+store-042,Bahandi Branch #42,"пр. Абылай хана 96",Astana,2024-01-20
+store-043,Bahandi Branch #43,"пр. Кабанбай батыра 120",Astana,2024-01-20
+store-044,Bahandi Branch #44,"пр. Туран 153",Astana,2024-01-20
+store-045,Bahandi Branch #45,"ул. Кунаева 58",Astana,2024-01-20
+store-046,Bahandi Branch #46,"пр. Республики 200",Astana,2024-01-20
+store-047,Bahandi Branch #47,"ул. Бейбитшилик 140",Astana,2024-01-20
+store-048,Bahandi Branch #48,"пр. Абылай хана 175",Astana,2024-01-20
+store-049,Bahandi Branch #49,"пр. Кабанбай батыра 204",Astana,2024-01-20
+store-050,Bahandi Branch #50,"пр. Туран 222",Astana,2024-01-20
+store-051,Bahandi Branch #51,"пр. Тауке хана 37",Shymkent,2024-02-01
+store-052,Bahandi Branch #52,"ул. Байтурсынова 88",Shymkent,2024-02-01
+store-053,Bahandi Branch #53,"пр. Кунаева 22",Shymkent,2024-02-01
+store-054,Bahandi Branch #54,"пр. Тауке хана 116",Shymkent,2024-02-01
+store-055,Bahandi Branch #55,"ул. Байтурсынова 201",Shymkent,2024-02-01
+store-056,Bahandi Branch #56,"пр. Кунаева 67",Shymkent,2024-02-01
+store-057,Bahandi Branch #57,"пр. Тауке хана 253",Shymkent,2024-02-01
+store-058,Bahandi Branch #58,"ул. Байтурсынова 340",Shymkent,2024-02-01
+store-059,Bahandi Branch #59,"пр. Кунаева 130",Shymkent,2024-02-01
+store-060,Bahandi Branch #60,"пр. Тауке хана 78",Shymkent,2024-02-01
+store-061,Bahandi Branch #61,"ул. Байтурсынова 412",Shymkent,2024-02-01
+store-062,Bahandi Branch #62,"пр. Кунаева 198",Shymkent,2024-02-01
+store-063,Bahandi Branch #63,"пр. Бухар жырау 41",Karaganda,2024-02-10
+store-064,Bahandi Branch #64,"ул. Ерубаева 17",Karaganda,2024-02-10
+store-065,Bahandi Branch #65,"пр. Нуркена Абдирова 88",Karaganda,2024-02-10
+store-066,Bahandi Branch #66,"пр. Бухар жырау 132",Karaganda,2024-02-10
+store-067,Bahandi Branch #67,"ул. Ерубаева 55",Karaganda,2024-02-10
+store-068,Bahandi Branch #68,"пр. Нуркена Абдирова 203",Karaganda,2024-02-10
+store-069,Bahandi Branch #69,"пр. Бухар жырау 287",Karaganda,2024-02-10
+store-070,Bahandi Branch #70,"ул. Ерубаева 99",Karaganda,2024-02-10
+store-071,Bahandi Branch #71,"ул. Айтеке би 34",Aktobe,2024-02-15
+store-072,Bahandi Branch #72,"пр. Абилкайыр хана 77",Aktobe,2024-02-15
+store-073,Bahandi Branch #73,"ул. Айтеке би 112",Aktobe,2024-02-15
+store-074,Bahandi Branch #74,"пр. Абилкайыр хана 155",Aktobe,2024-02-15
+store-075,Bahandi Branch #75,"ул. Академика Сатпаева 43",Pavlodar,2024-02-20
+store-076,Bahandi Branch #76,"пр. Машхур Жусупа 88",Pavlodar,2024-02-20
+store-077,Bahandi Branch #77,"пр. Шакарима 29",Pavlodar,2024-02-20
+store-078,Bahandi Branch #78,"ул. Шакарима 15",Semey,2024-03-01
+store-079,Bahandi Branch #79,"пр. Абая 67",Semey,2024-03-01
+store-080,Bahandi Branch #80,"ул. Толе би 41",Taraz,2024-03-05
+store-081,Bahandi Branch #81,"пр. Жамбыл 93",Taraz,2024-03-05
+store-082,Bahandi Branch #82,"ул. Азаттык 22",Atyrau,2024-03-10
+store-083,Bahandi Branch #83,"пр. Сатпаева 78",Kostanay,2024-03-12
+store-084,Bahandi Branch #84,"ул. Протозанова 34",Ust-Kamenogorsk,2024-03-15
+store-085,Bahandi Branch #85,"ул. Достык 55",Oral,2024-03-18
+store-086,Bahandi Branch #86,"ул. Жибек Жолы 44",Kyzylorda,2024-03-20
+store-087,Bahandi Branch #87,"пр. Металлургов 18",Temirtau,2024-03-22
