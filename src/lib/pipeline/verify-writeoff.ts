@@ -13,6 +13,7 @@ export type WriteoffRow = Database["public"]["Tables"]["writeoff_requests"]["Row
 
 export interface VerificationResult {
   request_id: string;
+  photo_hash: string;
   duplicate_detected: boolean;
   duplicate_match_percent: number;
   duplicate_request_id: string | null;
@@ -299,6 +300,7 @@ export async function runVerificationPipeline(
 
   return {
     request_id: request.id,
+    photo_hash: hash,
     duplicate_detected: duplicateStrength !== "none",
     duplicate_match_percent: dupMatchPercent,
     duplicate_request_id: duplicateStrength !== "none" ? bestMatchRequestId : null,

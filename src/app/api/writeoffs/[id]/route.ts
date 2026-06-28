@@ -27,13 +27,14 @@ export async function GET(
 
     if (error || !row) return jsonError(404, "Write-off request not found");
 
-    const [storeRes, productRes, senderRes, riskEventsRes, auditLogsRes] =
+    const [storeRes, productRes, senderRes, riskEventsRes, auditLogsRes, fingerprintRes] =
       await Promise.all([
         supabase.from("stores").select("id, name, address").eq("id", row.store_id).single(),
         supabase.from("products").select("id, name, unit, category, estimated_price").eq("id", row.product_id).single(),
         supabase.from("users").select("id, name, role").eq("id", row.sender_id).single(),
         supabase.from("risk_events").select("id, type, severity, message, score_delta, metadata, created_at").eq("request_id", id).order("created_at"),
         supabase.from("audit_logs").select("id, actor_id, action, metadata, ip_address, user_agent, created_at").eq("request_id", id).order("created_at"),
+        supabase.from("photo_fingerprints").select("hash").eq("request_id", id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
       ]);
 
     let reviewer = null;
@@ -50,6 +51,7 @@ export async function GET(
 
     return jsonOk({
       ...row,
+      photo_hash: fingerprintRes.data?.hash ?? null,
       store: storeRes.data ?? null,
       product: productRes.data ?? null,
       sender: senderRes.data ?? null,

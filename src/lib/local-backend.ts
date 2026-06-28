@@ -295,6 +295,7 @@ export async function listLocalWriteoffs(status?: string | null): Promise<unknow
       fraud_risk: r.fraud_risk,
       duplicate_detected: r.duplicate_detected,
       photo_url: r.photo_url,
+      photo_hash: r.photo_hash,
       iiko_status: r.iiko_status,
       created_at: r.created_at,
     };
@@ -470,6 +471,7 @@ export async function createLocalWriteoff(input: CreateLocalWriteoffInput, photo
     request_number: requestNumber,
     status: row.status,
     photo_url: row.photo_url,
+    photo_hash: row.photo_hash,
     risk_score: row.risk_score,
     fraud_risk: row.fraud_risk,
     duplicate_detected: row.duplicate_detected,

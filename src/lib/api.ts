@@ -89,8 +89,10 @@ interface ApiAiVerdict {
   quantity_confidence?: number;
   suspected_staging?: boolean;
   summary?: string;
+  comment?: string;
   flags?: string[];
   error?: string;
+  error_detail?: string;
 }
 
 interface ApiWriteoffSummary {
@@ -105,6 +107,7 @@ interface ApiWriteoffSummary {
   fraud_risk?: 'low' | 'medium' | 'high';
   duplicate_detected?: boolean;
   photo_url?: string;
+  photo_hash?: string | null;
   iiko_status?: string;
   created_at?: string;
 }
@@ -120,7 +123,6 @@ interface ApiWriteoffDetail extends ApiWriteoffSummary {
   deduction_employee_id?: string | null;
   deduction_employee?: { full_name?: string; name?: string } | null;
   comment?: string;
-  photo_hash?: string | null;
   duplicate_match_percent?: number;
   duplicate_request_id?: string | null;
   duplicate_request_number?: string | null;
@@ -258,6 +260,29 @@ function displayId(row: ApiWriteoffDetail): string {
   return number.replace(/^WO-/, '');
 }
 
+export function isProofImageUrl(value?: string | null): boolean {
+  const trimmed = value?.trim();
+  if (!trimmed) return false;
+  return (
+    trimmed.startsWith('data:image/')
+    || trimmed.startsWith('data/image')
+    || trimmed.startsWith('/demo-assets/')
+    || /^https?:\/\//i.test(trimmed)
+  );
+}
+
+export function toDisplayPhotoHash(value?: string | null): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) return undefined;
+  if (isProofImageUrl(trimmed)) return undefined;
+  if (trimmed.length > 100) return undefined;
+  return trimmed;
+}
+
+function proofImageUrl(...values: Array<string | null | undefined>): string | undefined {
+  return values.find((value): value is string => Boolean(value && isProofImageUrl(value)));
+}
+
 function mapWriteoff(row: ApiWriteoffDetail, fallback?: Partial<CreateWriteOffInput>): WriteOffRequest {
   const verification = row.verification;
   const score = row.risk_score ?? verification?.risk_score ?? 0;
@@ -276,6 +301,9 @@ function mapWriteoff(row: ApiWriteoffDetail, fallback?: Partial<CreateWriteOffIn
   const product = row.product?.name ?? fallback?.product ?? 'Unknown product';
   const branch = row.store?.name ? toDisplayBranch(row.store.name) : fallback?.branch ?? 'Unknown branch';
   const senderRole = fallback?.senderRole ?? 'cook';
+  const summary = providerVerdict?.summary ?? providerVerdict?.comment ?? verification?.reviewer_hint ?? undefined;
+  const displayPhotoHash = toDisplayPhotoHash(row.photo_hash);
+  const imageUrl = proofImageUrl(row.photo_url, row.photo_hash);
 
   const aiVerdict: AiVerdict = {
     provider: providerVerdict?.provider,
@@ -292,10 +320,11 @@ function mapWriteoff(row: ApiWriteoffDetail, fallback?: Partial<CreateWriteOffIn
     riskLevel: riskLevel(score),
     flags,
     visionFlags: providerVerdict?.flags,
-    summary: providerVerdict?.summary,
+    summary,
     error: providerVerdict?.error,
+    errorDetail: providerVerdict?.error_detail,
     suggestedRoute: route,
-    reasoning: providerVerdict?.summary ?? verification?.reviewer_hint ?? row.reviewer_comment ?? (duplicate ? 'Duplicate photo detected.' : 'Verification completed.'),
+    reasoning: summary ?? row.reviewer_comment ?? (duplicate ? 'Duplicate photo detected.' : 'Verification completed.'),
   };
 
   return {
@@ -310,8 +339,8 @@ function mapWriteoff(row: ApiWriteoffDetail, fallback?: Partial<CreateWriteOffIn
     writeOffType: toWriteOffType(row.writeoff_type) ?? fallback?.writeOffType ?? 'without_deduction',
     deductionEmployee: row.deduction_employee?.full_name ?? row.deduction_employee?.name ?? fallback?.deductionEmployee,
     comment: row.comment ?? fallback?.comment ?? '',
-    photoHash: row.photo_hash ?? row.photo_url ?? undefined,
-    proofImageUrl: row.photo_url ?? undefined,
+    photoHash: displayPhotoHash,
+    proofImageUrl: imageUrl,
     proofSource: row.source === 'upload' || fallback?.photoSource === 'uploaded_test_photo' ? 'uploaded_test_photo' : 'camera_demo_capture',
     sender: row.sender?.name ?? (senderRole === 'cook' ? 'A. Bekova' : 'N. Smagul'),
     senderRole,

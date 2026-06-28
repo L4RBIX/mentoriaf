@@ -258,6 +258,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       request_number: requestNumber,
       status: finalRow?.status ?? "pending",
       photo_url: photoUrl,
+      photo_hash: verification.photo_hash,
       risk_score: finalRow?.risk_score ?? 0,
       fraud_risk: finalRow?.fraud_risk ?? "low",
       duplicate_detected: finalRow?.duplicate_detected ?? false,

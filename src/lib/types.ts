@@ -52,6 +52,7 @@ export interface AiVerdict {
   visionFlags?: string[];
   summary?: string;
   error?: string;
+  errorDetail?: string;
   suggestedRoute: ReviewRoute;
   reasoning: string;
 }

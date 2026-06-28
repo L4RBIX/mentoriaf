@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { approveWriteOff, listWriteOffs, rejectWriteOff, requestNewPhoto } from '@/lib/api';
+import { approveWriteOff, listWriteOffs, rejectWriteOff, requestNewPhoto, toDisplayPhotoHash } from '@/lib/api';
 import { StatusBadge, RiskBadge, RouteBadge } from '@/components/app/StatusBadge';
 import type { WriteOffRequest } from '@/lib/types';
 import { useLanguage } from '@/components/LanguageProvider';
@@ -132,6 +132,8 @@ export default function ReviewerPage() {
     selected?.status === 'approved' || selected?.status === 'rejected' || selected?.status === 'synced';
   const proofImageUrl = selected?.proofImageUrl;
   const proofSourceLabel = selected?.proofSource === 'uploaded_test_photo' ? 'uploaded test photo' : 'camera/demo capture';
+  const photoHashLabel = toDisplayPhotoHash(selected?.photoHash) ?? 'pending';
+  const aiSummary = risk?.summary ?? risk?.reasoning;
 
   useEffect(() => {
     let active = true;
@@ -374,7 +376,7 @@ export default function ReviewerPage() {
                         wordBreak: 'break-all',
                       }}
                     >
-                      hash: {selected.photoHash ?? 'pending'}
+                      hash: {photoHashLabel}
                     </div>
                     {risk?.duplicateDetected && (
                       <div style={{ display: 'flex', gap: 20, fontFamily: 'monospace', fontSize: 12 }}>
@@ -401,7 +403,7 @@ export default function ReviewerPage() {
                         wordBreak: 'break-all',
                       }}
                     >
-                      hash: {selected.photoHash}
+                      hash: {photoHashLabel}
                     </div>
                     <div style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>
                       source: {proofSourceLabel}
@@ -423,7 +425,7 @@ export default function ReviewerPage() {
                       source: {proofSourceLabel}
                     </div>
                     <div style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.2)', wordBreak: 'break-all' }}>
-                      hash: {selected.photoHash}
+                      hash: {photoHashLabel}
                     </div>
                   </>
                 )
@@ -655,10 +657,41 @@ export default function ReviewerPage() {
                       value={`${risk.quantityEstimate}${typeof risk.quantityConfidence === 'number' ? ` · ${Math.round(risk.quantityConfidence * 100)}%` : ''}`}
                     />
                   )}
-                  {risk.summary && (
-                    <div style={{ marginTop: 10, fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.42)', lineHeight: 1.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {risk.summary}
+                  {aiSummary && (
+                    <div style={{ marginTop: 12 }}>
+                      <div
+                        style={{
+                          fontFamily: 'monospace',
+                          fontSize: 9,
+                          letterSpacing: '0.1em',
+                          color: 'rgba(255,255,255,0.2)',
+                          marginBottom: 6,
+                        }}
+                      >
+                        SUMMARY
+                      </div>
+                      <div
+                        style={{
+                          fontFamily: 'monospace',
+                          fontSize: 10,
+                          color: 'rgba(255,255,255,0.52)',
+                          lineHeight: 1.55,
+                          display: '-webkit-box',
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {aiSummary}
+                      </div>
                     </div>
+                  )}
+                  {(risk.error || risk.errorDetail) && (
+                    <PanelRow
+                      label="Error"
+                      value={risk.errorDetail ?? risk.error ?? 'vision_unavailable'}
+                      accent="#f59e0b"
+                    />
                   )}
                   {selected.route && (
                     <PanelRow label="Route" value={<RouteBadge route={selected.route} />} />
