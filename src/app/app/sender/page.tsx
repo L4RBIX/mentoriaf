@@ -516,7 +516,7 @@ export default function SenderPage() {
   }
 
   return (
-    <main style={{ maxWidth: 480, margin: '0 auto', padding: '72px 24px 120px' }}>
+    <main style={{ maxWidth: 520, margin: '0 auto', padding: '40px 20px 140px' }}>
       <div style={{ marginBottom: 32 }}>
         <div style={{ fontFamily: 'monospace', fontSize: 11, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)', marginBottom: 12 }}>
           PHYLAX · WRITE-OFF REQUEST
@@ -582,15 +582,16 @@ export default function SenderPage() {
                 onClick={() => set('role', r)}
                 style={{
                   flex: 1,
-                  padding: '9px',
+                  padding: '13px',
                   fontFamily: 'monospace',
-                  fontSize: 11,
+                  fontSize: 12,
                   letterSpacing: '0.06em',
                   background: form.role === r ? 'rgba(255,255,255,0.1)' : '#111',
                   border: `1px solid ${form.role === r ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.08)'}`,
                   color: form.role === r ? '#fff' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer',
                   textTransform: 'uppercase',
+                  minHeight: 48,
                 }}
               >
                 {r}
@@ -643,7 +644,7 @@ export default function SenderPage() {
             </span>
           )}
           {userLocation && (
-            <span style={{ fontFamily: 'monospace', fontSize: 8, color: 'rgba(255,255,255,0.18)', display: 'block' }}>
+            <span style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.18)', display: 'block' }}>
               Location is used only locally to suggest nearest branch.
             </span>
           )}
@@ -651,7 +652,7 @@ export default function SenderPage() {
           {/* Branch list */}
           <div
             style={{
-              maxHeight: 180,
+              maxHeight: 220,
               overflowY: 'auto',
               border: '1px solid rgba(255,255,255,0.08)',
               background: '#0c0c0c',
@@ -678,7 +679,8 @@ export default function SenderPage() {
                     key={store.id}
                     onClick={() => selectBranchById(store.id)}
                     style={{
-                      padding: '10px 12px',
+                      padding: '13px 12px',
+                      minHeight: 56,
                       cursor: 'pointer',
                       background: isSelected ? 'rgba(255,255,255,0.05)' : 'transparent',
                       borderLeft: isSelected ? '2px solid #f5f5f0' : '2px solid transparent',
@@ -917,14 +919,15 @@ export default function SenderPage() {
                 onClick={() => set('writeOffType', opt.v)}
                 style={{
                   flex: 1,
-                  padding: '9px 4px',
+                  padding: '13px 8px',
                   fontFamily: 'monospace',
-                  fontSize: 10,
+                  fontSize: 11,
                   letterSpacing: '0.04em',
                   background: form.writeOffType === opt.v ? 'rgba(255,255,255,0.1)' : '#111',
                   border: `1px solid ${form.writeOffType === opt.v ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.08)'}`,
                   color: form.writeOffType === opt.v ? '#fff' : 'rgba(255,255,255,0.4)',
                   cursor: 'pointer',
+                  minHeight: 48,
                 }}
               >
                 {opt.l}
@@ -1111,18 +1114,7 @@ export default function SenderPage() {
         <button
           type="button"
           onClick={submit}
-          style={{
-            background: '#f5f5f0',
-            color: '#070707',
-            border: 'none',
-            padding: '14px',
-            fontFamily: 'monospace',
-            fontSize: 12,
-            letterSpacing: '0.1em',
-            cursor: 'pointer',
-            width: '100%',
-            marginTop: 8,
-          }}
+          className="sender-submit-btn"
         >
           {t('send_verification')}
         </button>

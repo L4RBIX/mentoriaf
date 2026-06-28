@@ -121,6 +121,7 @@ export default function ReviewerPage() {
   const [actionLoading, setActionLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [photoModalOpen, setPhotoModalOpen] = useState(false);
+  const [mobileShowDetail, setMobileShowDetail] = useState(false);
 
   const sortedRequests = useMemo(
     () => [...requests].sort((a, b) => (b.aiVerdict?.riskScore ?? 0) - (a.aiVerdict?.riskScore ?? 0)),
@@ -224,19 +225,9 @@ export default function ReviewerPage() {
   }
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 52px)', overflow: 'hidden', minWidth: 0 }}>
-      {/* Queue sidebar */}
-      <div
-        style={{
-          width: 272,
-          flexShrink: 0,
-          borderRight: '1px solid rgba(255,255,255,0.07)',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          background: '#090909',
-        }}
-      >
+    <div className={`reviewer-layout${mobileShowDetail ? ' mobile-detail-open' : ''}`}>
+      {/* ── Queue sidebar / mobile full-screen queue ── */}
+      <div className="reviewer-queue-col">
         <div
           style={{
             padding: '0.85rem 1.25rem',
@@ -259,31 +250,33 @@ export default function ReviewerPage() {
             </div>
           )}
           {sortedRequests.map((r) => (
-            <QueueItem key={r.id} req={r} selected={r.id === selectedId} onClick={() => setSelectedId(r.id)} />
+            <QueueItem
+              key={r.id}
+              req={r}
+              selected={r.id === selectedId}
+              onClick={() => {
+                setSelectedId(r.id);
+                setMobileShowDetail(true);
+              }}
+            />
           ))}
         </div>
       </div>
 
       {/* Main + right panel */}
       {selected ? (
-        <div
-          style={{
-            flex: 1,
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) 356px',
-            overflow: 'hidden',
-            minWidth: 0,
-          }}
-        >
-          {/* ─── Main detail ─── */}
-          <div
-            style={{
-              overflowY: 'auto',
-              padding: '2rem 2.25rem',
-              borderRight: '1px solid rgba(255,255,255,0.07)',
-              minWidth: 0,
-            }}
+        <div className="reviewer-detail-area">
+          {/* ── Mobile back button ── */}
+          <button
+            type="button"
+            className="reviewer-back-btn"
+            onClick={() => setMobileShowDetail(false)}
           >
+            ← {t('risk_queue')}
+          </button>
+
+          {/* ─── Main detail ─── */}
+          <div className="reviewer-main-panel">
             {/* Header */}
             <div
               style={{
@@ -544,6 +537,7 @@ export default function ReviewerPage() {
 
           {/* ─── Right sidebar ─── */}
           <div
+            className="reviewer-right-panel"
             style={{
               overflowY: 'auto',
               padding: '1.5rem 1.25rem',
