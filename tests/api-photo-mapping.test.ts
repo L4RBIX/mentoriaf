@@ -22,3 +22,26 @@ describe("write-off proof photo mapping", () => {
     expect(toDisplayPhotoHash("x".repeat(101))).toBeUndefined();
   });
 });
+
+describe("photo source label mapping", () => {
+  // Mirrors the label logic used in sender/page.tsx and reviewer/page.tsx
+  function proofSourceLabel(proofSource: string | undefined): string {
+    if (proofSource === "uploaded_test_photo") return "uploaded test photo";
+    if (proofSource === "live_camera_capture") return "live camera capture";
+    return "camera/demo capture";
+  }
+
+  it("maps uploaded_test_photo correctly", () => {
+    expect(proofSourceLabel("uploaded_test_photo")).toBe("uploaded test photo");
+  });
+
+  it("maps live_camera_capture correctly", () => {
+    expect(proofSourceLabel("live_camera_capture")).toBe("live camera capture");
+  });
+
+  it("maps camera_demo_capture and unknown values to fallback", () => {
+    expect(proofSourceLabel("camera_demo_capture")).toBe("camera/demo capture");
+    expect(proofSourceLabel("pwa")).toBe("camera/demo capture");
+    expect(proofSourceLabel(undefined)).toBe("camera/demo capture");
+  });
+});

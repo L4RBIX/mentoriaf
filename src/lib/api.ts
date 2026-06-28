@@ -341,7 +341,9 @@ function mapWriteoff(row: ApiWriteoffDetail, fallback?: Partial<CreateWriteOffIn
     comment: row.comment ?? fallback?.comment ?? '',
     photoHash: displayPhotoHash,
     proofImageUrl: imageUrl,
-    proofSource: row.source === 'upload' || fallback?.photoSource === 'uploaded_test_photo' ? 'uploaded_test_photo' : 'camera_demo_capture',
+    proofSource: row.source === 'upload' || fallback?.photoSource === 'uploaded_test_photo' ? 'uploaded_test_photo' :
+      row.source === 'camera' || fallback?.photoSource === 'live_camera_capture' ? 'live_camera_capture' :
+      'camera_demo_capture',
     sender: row.sender?.name ?? (senderRole === 'cook' ? 'A. Bekova' : 'N. Smagul'),
     senderRole,
     createdAt: row.created_at ?? new Date().toISOString(),
@@ -412,17 +414,19 @@ async function demoBlob(asset: NonNullable<CreateWriteOffInput['demoAsset']>): P
 export async function health(): Promise<HealthStatus> {
   const raw = await requestJson<{
     status: 'ok' | 'error';
-    database: 'connected' | 'local' | 'error';
+    database: 'supabase' | 'connected' | 'local' | 'error';
+    supabase_configured?: boolean;
     gemini_configured?: boolean;
     iiko_mode?: 'sandbox' | 'real';
     vision_provider?: 'gemini' | 'local';
-    vision_status?: 'ready' | 'disabled';
+    vision_status?: 'ready' | 'disabled' | 'fallback';
     timestamp: string;
   }>('/api/health');
 
   return {
     status: raw.status,
-    database: raw.database,
+    database: raw.database === 'connected' ? 'supabase' : raw.database,
+    supabaseConfigured: raw.supabase_configured,
     geminiConfigured: Boolean(raw.gemini_configured),
     iikoMode: raw.iiko_mode === 'real' ? 'production' : 'sandbox',
     visionProvider: raw.vision_provider ?? (raw.gemini_configured ? 'gemini' : 'local'),
@@ -451,7 +455,11 @@ export async function createWriteOff(input: CreateWriteOffInput): Promise<WriteO
   form.append('captured_at', new Date().toISOString());
   form.append('latitude', String(store.latitude ?? 43.222));
   form.append('longitude', String(store.longitude ?? 76.8512));
-  form.append('source', input.photoSource === 'uploaded_test_photo' ? 'upload' : 'pwa');
+  form.append('source',
+    input.photoSource === 'uploaded_test_photo' ? 'upload' :
+    input.photoSource === 'live_camera_capture' ? 'camera' :
+    'pwa'
+  );
   form.append('photo', photo, input.photo instanceof File ? input.photo.name : `${input.demoAsset ?? 'proof'}.jpg`);
 
   const created = await requestJson<ApiWriteoffDetail>('/api/writeoffs', { method: 'POST', body: form });
@@ -462,7 +470,7 @@ export async function createWriteOff(input: CreateWriteOffInput): Promise<WriteO
     sender,
     quantity: input.quantity,
     unit: product.unit,
-    source: input.photoSource === 'uploaded_test_photo' ? 'upload' : 'pwa',
+    source: input.photoSource === 'uploaded_test_photo' ? 'upload' : input.photoSource === 'live_camera_capture' ? 'camera' : 'pwa',
     reason: input.reason,
     writeoff_type: fromWriteOffType(input.writeOffType),
     comment: input.comment,

@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { computeDHash, hammingDistance, duplicateMatchPercent, classifyDuplicate } from "@/lib/phash";
 import { calculateRiskScore } from "@/lib/risk/risk-engine";
 import { verifyWriteOffPhoto } from "@/backend/vision";
+import { isSupabaseConfigured } from "@/backend/supabase/server";
 import type { FraudRisk } from "@/lib/risk/risk-rules";
 
 type LocalStatus = "pending" | "approved" | "rejected";
@@ -167,7 +168,7 @@ declare global {
 }
 
 export function isLocalBackendMode(): boolean {
-  return !process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return !isSupabaseConfigured();
 }
 
 function state(): LocalState {
@@ -332,7 +333,9 @@ export async function createLocalWriteoff(input: CreateLocalWriteoffInput, photo
   const DEMO_PHOTO: Record<string, string> = {
     Tomatoes: "/demo-assets/tomatoes_reused.jpg",
   };
-  const photoUrl = source === "upload"
+  // For real uploads (camera or test photo), use the actual bytes as a data URL.
+  // For demo presets (source=pwa), use the side-by-side comparison photo if available.
+  const photoUrl = (source === "upload" || source === "camera")
     ? `data:${mimeType};base64,${photoBuffer.toString("base64")}`
     : (DEMO_PHOTO[product.name] ?? `data:${mimeType};base64,${photoBuffer.toString("base64")}`);
   const capturedAt = input.captured_at ?? null;

@@ -89,7 +89,7 @@ export interface WriteOffRequest {
   comment: string;
   photoHash?: string;
   proofImageUrl?: string;
-  proofSource?: 'uploaded_test_photo' | 'camera_demo_capture';
+  proofSource?: 'uploaded_test_photo' | 'live_camera_capture' | 'camera_demo_capture';
   sender: string;
   senderRole: 'cashier' | 'cook';
   createdAt: string;
@@ -113,11 +113,12 @@ export interface AnalyticsSummary {
 
 export interface HealthStatus {
   status: 'ok' | 'error';
-  database: 'connected' | 'local' | 'error';
+  database: 'supabase' | 'local' | 'error';
+  supabaseConfigured?: boolean;
   geminiConfigured: boolean;
   iikoMode: 'sandbox' | 'production';
   visionProvider: 'gemini' | 'local';
-  visionStatus: 'ready' | 'disabled';
+  visionStatus: 'ready' | 'disabled' | 'fallback';
   timestamp: string;
 }
 
@@ -132,7 +133,7 @@ export interface CreateWriteOffInput {
   comment: string;
   senderRole: 'cashier' | 'cook';
   photo?: File | Blob;
-  photoSource?: 'uploaded_test_photo' | 'camera_demo_capture';
+  photoSource?: 'uploaded_test_photo' | 'live_camera_capture' | 'camera_demo_capture';
   demoAsset?: 'tomatoes_reused' | 'tomatoes_1847' | 'patty' | 'buns' | 'cheese';
 }
 

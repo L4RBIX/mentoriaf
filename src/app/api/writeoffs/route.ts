@@ -130,6 +130,9 @@ export async function POST(request: NextRequest): Promise<Response> {
     if (photoBuffer.length > MAX_PHOTO_BYTES) {
       return jsonError(413, "photo must be 8MB or smaller");
     }
+    if (mimeType === "image/heic" || mimeType === "image/heif") {
+      return jsonError(415, "HEIC/HEIF photos are not supported. Please convert to JPEG before submitting, or use a browser that auto-converts (Chrome, Firefox).");
+    }
     if (!ACCEPTED_MIME_TYPES.has(mimeType)) {
       return jsonError(400, "photo must be JPEG, PNG, or WebP");
     }
@@ -174,18 +177,24 @@ export async function POST(request: NextRequest): Promise<Response> {
     const supabase = getSupabaseAdmin();
     const requestId = crypto.randomUUID();
     const requestNumber = generateRequestNumber();
-    const storagePath = `writeoffs/${input.store_id}/${requestId}.${metadata.format ?? "jpg"}`;
+    let storagePath = `writeoffs/${input.store_id}/${requestId}.${metadata.format ?? "jpg"}`;
 
     const { error: uploadError } = await supabase.storage
       .from(STORAGE_BUCKET)
       .upload(storagePath, photoBuffer, { contentType: mimeType, upsert: false });
 
-    if (uploadError) return jsonError(500, `Photo upload failed: ${uploadError.message}`);
-
-    const { data: urlData } = supabase.storage
-      .from(STORAGE_BUCKET)
-      .getPublicUrl(storagePath);
-    const photoUrl = urlData.publicUrl;
+    let photoUrl: string;
+    if (uploadError) {
+      // Production persistence should not depend on a storage bucket existing
+      // before the pitch. Upload size and MIME type were already validated.
+      storagePath = `inline-data-url/${requestId}.${metadata.format ?? "jpg"}`;
+      photoUrl = `data:${mimeType};base64,${photoBuffer.toString("base64")}`;
+    } else {
+      const { data: urlData } = supabase.storage
+        .from(STORAGE_BUCKET)
+        .getPublicUrl(storagePath);
+      photoUrl = urlData.publicUrl;
+    }
 
     const { data: newRow, error: insertError } = await supabase
       .from("writeoff_requests")
@@ -242,6 +251,7 @@ export async function POST(request: NextRequest): Promise<Response> {
     // Run full verification pipeline inline.
     const verification = await runVerificationPipeline(newRow, {
       photoBuffer,
+      mimeType,
       isInitialCreate: true,
       ipAddress: getClientIp(request),
       userAgent: request.headers.get("user-agent"),

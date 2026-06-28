@@ -131,7 +131,7 @@ export default function ReviewerPage() {
   const isDone =
     selected?.status === 'approved' || selected?.status === 'rejected' || selected?.status === 'synced';
   const proofImageUrl = selected?.proofImageUrl;
-  const proofSourceLabel = selected?.proofSource === 'uploaded_test_photo' ? 'uploaded test photo' : 'camera/demo capture';
+  const proofSourceLabel = selected?.proofSource === 'uploaded_test_photo' ? 'uploaded test photo' : selected?.proofSource === 'live_camera_capture' ? 'live camera capture' : 'camera/demo capture';
   const photoHashLabel = toDisplayPhotoHash(selected?.photoHash) ?? 'pending';
   const aiSummary = risk?.summary ?? risk?.reasoning;
 

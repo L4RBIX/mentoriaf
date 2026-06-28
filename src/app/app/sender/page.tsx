@@ -126,6 +126,8 @@ interface FormState {
   uploadedPreviewUrl?: string;
   uploadedFileName?: string;
   demoAsset?: 'tomatoes_reused' | 'tomatoes_1847' | 'patty' | 'buns' | 'cheese';
+  /** How the photo was captured: live phone camera, test file upload, or demo preset. */
+  photoSource?: 'live_camera_capture' | 'upload' | 'demo';
 }
 
 const empty: FormState = {
@@ -173,6 +175,7 @@ const selectStyle: React.CSSProperties = {
 export default function SenderPage() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useLanguage();
 
   const [form, setForm] = useState<FormState>(empty);
@@ -215,6 +218,7 @@ export default function SenderPage() {
       comment: p.comment,
       hasPhoto: true,
       demoAsset: p.demoAsset,
+      photoSource: 'demo',
     });
     setErrors({});
     setApiError(null);
@@ -230,28 +234,23 @@ export default function SenderPage() {
         uploadedPreviewUrl: undefined,
         uploadedFileName: undefined,
         demoAsset: undefined,
+        photoSource: undefined,
       };
     });
   }
 
-  function takePhoto() {
-    setForm((f) => {
-      if (f.uploadedPreviewUrl) URL.revokeObjectURL(f.uploadedPreviewUrl);
-      return {
-        ...f,
-        hasPhoto: true,
-        uploadedFile: undefined,
-        uploadedPreviewUrl: undefined,
-        uploadedFileName: undefined,
-        demoAsset: f.demoAsset,
-      };
-    });
-    setErrors((e) => ({ ...e, hasPhoto: undefined }));
+  function takeLivePhoto() {
+    cameraInputRef.current?.click();
   }
 
-  function handleUpload(file: File | undefined) {
-    if (!file) return;
-    if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+  function applyPhotoFile(file: File, source: 'upload' | 'live_camera_capture') {
+    const isHeic = file.type === 'image/heic' || file.type === 'image/heif' ||
+      file.name.toLowerCase().endsWith('.heic') || file.name.toLowerCase().endsWith('.heif');
+    if (isHeic) {
+      setErrors((e) => ({ ...e, hasPhoto: 'HEIC photos not supported. Use JPEG, PNG, or WebP.' }));
+      return;
+    }
+    if (file.type && !ACCEPTED_IMAGE_TYPES.includes(file.type)) {
       setErrors((e) => ({ ...e, hasPhoto: 'Use JPEG, PNG, or WebP image' }));
       return;
     }
@@ -259,7 +258,6 @@ export default function SenderPage() {
       setErrors((e) => ({ ...e, hasPhoto: 'Image must be 8MB or smaller' }));
       return;
     }
-
     setForm((f) => {
       if (f.uploadedPreviewUrl) URL.revokeObjectURL(f.uploadedPreviewUrl);
       return {
@@ -269,10 +267,21 @@ export default function SenderPage() {
         uploadedPreviewUrl: URL.createObjectURL(file),
         uploadedFileName: file.name,
         demoAsset: undefined,
+        photoSource: source,
       };
     });
     setErrors((e) => ({ ...e, hasPhoto: undefined }));
     setApiError(null);
+  }
+
+  function handleUpload(file: File | undefined) {
+    if (!file) return;
+    applyPhotoFile(file, 'upload');
+  }
+
+  function handleCameraCapture(file: File | undefined) {
+    if (!file) return;
+    applyPhotoFile(file, 'live_camera_capture');
   }
 
   function selectBranchById(storeId: string) {
@@ -339,9 +348,15 @@ export default function SenderPage() {
       deductionEmployee: form.employee || undefined,
       comment: form.comment,
       senderRole: form.role,
-      demoAsset: form.demoAsset ?? (form.product === 'Tomatoes' ? 'tomatoes_reused' : form.product === 'Buns' ? 'buns' : 'buns'),
+      demoAsset: form.photoSource === 'demo' || (!form.uploadedFile && !form.photoSource)
+        ? (form.demoAsset ?? (form.product === 'Tomatoes' ? 'tomatoes_reused' : 'buns'))
+        : undefined,
       photo: form.uploadedFile,
-      photoSource: form.uploadedFile ? 'uploaded_test_photo' : 'camera_demo_capture',
+      photoSource: form.photoSource === 'live_camera_capture'
+        ? 'live_camera_capture'
+        : form.photoSource === 'upload'
+        ? 'uploaded_test_photo'
+        : 'camera_demo_capture',
     });
 
     try {
@@ -410,7 +425,7 @@ export default function SenderPage() {
                 { k: 'Product', v: result.product },
                 { k: 'Quantity', v: `${result.quantity} ${result.unit}` },
                 { k: 'Reason', v: result.reason },
-                { k: 'Source', v: result.proofSource === 'uploaded_test_photo' ? 'uploaded test photo' : 'camera/demo capture' },
+                { k: 'Source', v: result.proofSource === 'uploaded_test_photo' ? 'uploaded test photo' : result.proofSource === 'live_camera_capture' ? 'live camera capture' : 'camera/demo capture' },
               ].map((row) => (
                 <div key={row.k} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.45rem 0', borderBottom: '1px solid rgba(255,255,255,0.04)', fontFamily: 'monospace', fontSize: 12 }}>
                   <span style={{ color: 'rgba(255,255,255,0.3)' }}>{row.k}</span>
@@ -956,6 +971,7 @@ export default function SenderPage() {
           >
             {form.hasPhoto ? (
               <>
+                {/* Preview */}
                 <div style={{ width: '100%', minHeight: 120, background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                   {form.uploadedPreviewUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -965,44 +981,58 @@ export default function SenderPage() {
                       style={{ width: '100%', height: 168, objectFit: 'cover', display: 'block' }}
                     />
                   ) : (
-                    <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#22c55e' }}>● PHOTO CAPTURED</span>
+                    <span style={{ fontFamily: 'monospace', fontSize: 11, color: '#22c55e' }}>PHOTO READY</span>
                   )}
                 </div>
+
+                {/* Source + file info */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
                   <div style={{ display: 'flex', gap: 8, width: '100%', alignItems: 'center' }}>
-                    <span style={{ fontFamily: 'monospace', fontSize: 10, color: form.uploadedFile ? '#51a2ff' : 'rgba(255,255,255,0.3)', flex: 1 }}>
-                      {form.uploadedFile ? `Source: uploaded test photo · ${form.uploadedFileName}` : 'Source: camera/demo capture'}
+                    <span style={{
+                      fontFamily: 'monospace', fontSize: 10, flex: 1,
+                      color: form.photoSource === 'live_camera_capture' ? '#22c55e'
+                        : form.photoSource === 'upload' ? '#51a2ff'
+                        : 'rgba(255,255,255,0.3)',
+                    }}>
+                      {form.photoSource === 'live_camera_capture'
+                        ? `Source: live camera capture${form.uploadedFile ? ` · ${(form.uploadedFile.size / 1024).toFixed(0)} KB` : ''}`
+                        : form.photoSource === 'upload'
+                        ? `Source: uploaded test photo · ${form.uploadedFileName ?? ''}`
+                        : 'Source: demo preset'}
                     </span>
-                    <button type="button" onClick={clearUploadedPhoto} style={{ fontFamily: 'monospace', fontSize: 10, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer' }}>
-                      RETAKE
+                    <button type="button" onClick={clearUploadedPhoto} style={{ fontFamily: 'monospace', fontSize: 10, color: '#ef4444', background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
+                      REPLACE
                     </button>
                   </div>
+
+                  {/* Re-capture options */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, width: '100%' }}>
                     <button
                       type="button"
-                      onClick={takePhoto}
-                      style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.55)', padding: '8px 10px', fontFamily: 'monospace', fontSize: 10, letterSpacing: '0.06em', cursor: 'pointer', width: '100%' }}
+                      onClick={takeLivePhoto}
+                      style={{ background: 'rgba(34,197,94,0.07)', border: '1px solid rgba(34,197,94,0.2)', color: '#22c55e', padding: '8px 10px', fontFamily: 'monospace', fontSize: 10, letterSpacing: '0.06em', cursor: 'pointer', width: '100%' }}
                     >
-                      {t('take_photo')}
+                      TAKE LIVE PHOTO
                     </button>
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
                       style={{ background: 'rgba(81,162,255,0.08)', border: '1px solid rgba(81,162,255,0.22)', color: '#51a2ff', padding: '8px 10px', fontFamily: 'monospace', fontSize: 10, letterSpacing: '0.06em', cursor: 'pointer', width: '100%' }}
                     >
-                      {t('upload_test_photo')}
+                      UPLOAD TEST PHOTO
                     </button>
                   </div>
-                  {form.uploadedFile && (
+
+                  {form.photoSource === 'live_camera_capture' && (
+                    <div style={{ alignSelf: 'flex-start', fontFamily: 'monospace', fontSize: 9, letterSpacing: '0.08em', color: '#22c55e', border: '1px solid rgba(34,197,94,0.24)', padding: '2px 7px' }}>
+                      LIVE CAMERA
+                    </div>
+                  )}
+                  {form.photoSource === 'upload' && (
                     <div style={{ alignSelf: 'flex-start', fontFamily: 'monospace', fontSize: 9, letterSpacing: '0.08em', color: '#51a2ff', border: '1px solid rgba(81,162,255,0.24)', padding: '2px 7px' }}>
                       TEST UPLOAD MODE
                     </div>
                   )}
-                  <div style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.25)', lineHeight: 1.5 }}>
-                    {form.uploadedFile
-                      ? 'For laptop testing. Mobile production flow uses camera-only capture.'
-                      : 'Mobile/PWA demo capture. Laptop testing can use upload test photo.'}
-                  </div>
                 </div>
               </>
             ) : (
@@ -1011,11 +1041,11 @@ export default function SenderPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, width: '100%' }}>
                   <button
                     type="button"
-                    onClick={takePhoto}
+                    onClick={takeLivePhoto}
                     style={{
-                      background: 'rgba(255,255,255,0.06)',
-                      border: '1px solid rgba(255,255,255,0.15)',
-                      color: '#fff',
+                      background: 'rgba(34,197,94,0.07)',
+                      border: '1px solid rgba(34,197,94,0.2)',
+                      color: '#22c55e',
                       padding: '10px 12px',
                       fontFamily: 'monospace',
                       fontSize: 11,
@@ -1024,7 +1054,7 @@ export default function SenderPage() {
                       width: '100%',
                     }}
                   >
-                    TAKE PHOTO
+                    TAKE LIVE PHOTO
                   </button>
                   <button
                     type="button"
@@ -1045,10 +1075,26 @@ export default function SenderPage() {
                   </button>
                 </div>
                 <div style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.25)', lineHeight: 1.5 }}>
-                  For laptop testing. Mobile production flow uses camera-only capture.
+                  On mobile: TAKE LIVE PHOTO opens the camera directly.
+                  On desktop: either button opens file picker.
                 </div>
               </>
             )}
+
+            {/* Hidden file inputs */}
+            {/* Camera capture input — capture="environment" opens rear camera on mobile */}
+            <input
+              ref={cameraInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={(e) => {
+                handleCameraCapture(e.target.files?.[0]);
+                e.currentTarget.value = '';
+              }}
+              style={{ display: 'none' }}
+            />
+            {/* Test photo upload input — no capture attribute, opens file picker */}
             <input
               ref={fileInputRef}
               type="file"
